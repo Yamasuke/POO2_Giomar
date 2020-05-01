@@ -6,7 +6,7 @@
 package persistencia;
 
 import java.util.ArrayList;
-import negocio.Paciente;
+import negocio.Anamnese;
 
 
 /**
@@ -14,9 +14,9 @@ import negocio.Paciente;
  * @author Yan
  */
 public interface IAnamneseDAO {
-    public void adiciona(Paciente um_paciente);
-    public void altera(Paciente um_paciente);
+    public void adiciona(Anamnese anamnese);
+    public void altera(Anamnese anamnese);
     public void remove(int id);
-    public ArrayList<Paciente> listarTodos();
-    public Paciente getByID(int id);
+    public ArrayList<Anamnese> listarTodos();
+    public Anamnese getByID(int id);
 }

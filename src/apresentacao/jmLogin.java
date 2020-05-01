@@ -5,20 +5,58 @@
  */
 package apresentacao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import negocio.Psicologo;
+import persistencia.ConFactory;
 
 /**
  *
  * @author Yan
  */
 public class jmLogin extends javax.swing.JFrame {
+    Connection connection; 
 
     /**
      * Creates new form jmLogin
      */
     public jmLogin() {
         initComponents();
+        this.connection = new ConFactory().getConnection();
+    }
+    
+    
+    public boolean verificaLogin(String login, String senha){ 
+        
+        boolean autenticado = false;
+        String sql;
+        
+        try {
+            sql = "SELECT login, senha FROM psicologo WHERE login=? and senha=?";
+            PreparedStatement stmt;
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, login);
+            stmt.setString(2, senha);
+
+            ResultSet rs;
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                login = rs.getString("login");
+                senha = rs.getString("senha");
+                autenticado = true;
+            } else {
+                stmt.close();
+                return autenticado;
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+        return autenticado;
     }
 
     /**
@@ -53,6 +91,11 @@ public class jmLogin extends javax.swing.JFrame {
 
         btCancelar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Cancel-32.png"))); // NOI18N
         btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
 
         btLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/recursos/Check-32.png"))); // NOI18N
         btLogin.setText("Login");
@@ -112,13 +155,11 @@ public class jmLogin extends javax.swing.JFrame {
 
     private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
         // TODO add your handling code here:
-        String usuarioDefault = "user";
-        String senhaDefault = "123";
         
         String usuarioDigitado = jTextUsuario.getText();
         String senhaDigitada = new String(jTextSenha.getPassword());
         
-        if(usuarioDefault.equals(usuarioDigitado) && senhaDefault.equals(senhaDigitada)){
+        if(verificaLogin(usuarioDigitado, senhaDigitada)){
             fmPrincipal principal = new fmPrincipal();
             principal.setVisible(true);
             principal.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -126,6 +167,11 @@ public class jmLogin extends javax.swing.JFrame {
         }
         else JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos!");
     }//GEN-LAST:event_btLoginActionPerformed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_btCancelarActionPerformed
 
     /**
      * @param args the command line arguments

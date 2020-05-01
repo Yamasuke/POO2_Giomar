@@ -9,8 +9,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import negocio.Paciente;
 
@@ -31,6 +33,8 @@ public class PacienteDAO implements IPacienteDAO{
     
     @Override
     public void adiciona(Paciente paciente)  {
+        Date data = new java.sql.Date((paciente.getData_nascimento().getTimeInMillis()));
+        
         String sql = "insert into paciente " + 
                 "(nome, cpf, data_nascimento, sexo, endereco, telefone, foto, plano_saude, observacoes, data_cadastro)" +
                 " values (?,?,?,?,?,?,?,?,?,now())";
@@ -39,7 +43,7 @@ public class PacienteDAO implements IPacienteDAO{
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, paciente.getNome());
             stmt.setString(2, paciente.getCpf());
-            stmt.setDate(3, (java.sql.Date) new java.sql.Date(paciente.getData_nascimento().getTimeInMillis()));
+            stmt.setDate(3, (java.sql.Date) data);
             stmt.setString(4, paciente.getSexo());
             stmt.setString(5, paciente.getEndereco());
             stmt.setString(6, paciente.getTelefone());
@@ -67,17 +71,18 @@ public class PacienteDAO implements IPacienteDAO{
     }
 
     @Override
-    public ArrayList<Paciente> listarTodos() {
+    public List<Paciente> listarTodos() {
         try{
-            List<Paciente> pacientes;
-            pacientes = new ArrayList<>();
-            PreparedStatement stmt = (PreparedStatement) this.connection;
-            connection.prepareStatement("select * from paciente");
-            ResultSet rs = stmt.executeQuery();
+            List<Paciente> pacientes = new ArrayList<Paciente>();
+            
+            String sql = "SELECT * FROM paciente";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()){
-                Paciente paciente = new Paciente();
-                paciente.setIdPaciente(rs.getInt("idPaciente"));
+               Paciente paciente = new Paciente();
+                
+                paciente.setIdPaciente(rs.getInt("idpaciente"));
                 paciente.setNome(rs.getString("nome"));
                 paciente.setCpf(rs.getString("cpf"));
                 
@@ -94,12 +99,15 @@ public class PacienteDAO implements IPacienteDAO{
                 data.setTime(rs.getDate("data_cadastro"));
                 paciente.setData_cadastro(data);
                 
+                System.out.print(paciente.toString());
+                
                 pacientes.add(paciente);
             }
             rs.close();
             stmt.close();
-            return (ArrayList<Paciente>) pacientes;
+            return pacientes;
         } catch(SQLException e){
+            System.out.print(e);
             throw new RuntimeException(e);
         }
     }

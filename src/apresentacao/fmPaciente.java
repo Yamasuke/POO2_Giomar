@@ -135,7 +135,11 @@ public class fmPaciente extends javax.swing.JInternalFrame {
 
         btFeminino.setText("Feminino");
 
-        txtDtNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+        try {
+            txtDtNasc.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
         txtDtNasc.setToolTipText("");
         txtDtNasc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,9 +239,7 @@ public class fmPaciente extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(txtPlanoSaude, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(TxtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                                         .addComponent(txtEndereco)
@@ -248,6 +250,7 @@ public class fmPaciente extends javax.swing.JInternalFrame {
                                         .addComponent(btFeminino))
                                     .addComponent(txtTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -650,14 +653,15 @@ public class fmPaciente extends javax.swing.JInternalFrame {
             paciente.setCpf(txtCPF.getText());
             // tratando a data
             try {
-                SimpleDateFormat data = new SimpleDateFormat("dd/mm/yyyy");
+                SimpleDateFormat data = new SimpleDateFormat("dd/MM/yyyy");
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(data.parse(txtDtNasc.getText()));
-                //System.out.println(data.parse(txtData.getText()));
                 paciente.setData_nascimento(cal);
             } catch (ParseException e) {
                 System.out.println(e);
             }
+            
+        
 
             if(btMasc.isSelected())
             paciente.setSexo("M");
@@ -685,7 +689,9 @@ public class fmPaciente extends javax.swing.JInternalFrame {
             // gravamos os dados
             PacienteDAO dao = new PacienteDAO();
             dao.adiciona(paciente);
-
+          /*  System.out.format(paciente.getNome(),paciente.getCpf(),paciente.getSexo(), paciente.getEndereco(), paciente.getTelefone() +
+                    paciente.getFoto(), paciente.getObservacoes(), paciente.getPlano_saude());
+*/
             JOptionPane.showMessageDialog(null, "Os dados foram gravados");
             //limpa formulario
             limpar();

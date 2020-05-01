@@ -64,13 +64,16 @@ public class Paciente {
      * @param cpf the cpf to set
      */
     public void setCpf(String cpf) {
+        // Tira os pontos e traços
+        cpf = cpf.replaceAll("[^0-9]+", "");
+      
         this.cpf = cpf;
     }
 
     /**
      * @return the data_nascimento
      */
-    public Calendar getData_nascimento() {
+    public Calendar getData_nascimento() {        
         return data_nascimento;
     }
 
@@ -120,6 +123,10 @@ public class Paciente {
      * @param telefone the telefone to set
      */
     public void setTelefone(String telefone) {
+        //tira o colchetes e traço
+        telefone = telefone.replaceAll("[^0-9]+", "");
+        
+        
         this.telefone = telefone;
     }
 

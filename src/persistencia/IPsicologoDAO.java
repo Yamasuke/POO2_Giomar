@@ -5,17 +5,17 @@
  */
 package persistencia;
 
-import java.util.ArrayList;
-import negocio.Paciente;
+import java.util.List;
+import negocio.Psicologo;
 
 /**
  *
  * @author Yan
  */
 public interface IPsicologoDAO {
-    public void adiciona(Paciente um_paciente);
-    public void altera(Paciente um_paciente);
+    public void adiciona(Psicologo psicologo);
+    public void altera(Psicologo psicologo);
     public void remove(int id);
-    public ArrayList<Paciente> listarTodos();
-    public Paciente getByID(int id);
+    public List<Psicologo> listarTodos();
+    public Psicologo getByID(int id);
 }

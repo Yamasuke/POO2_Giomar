@@ -245,6 +245,9 @@ public class fmPrincipal extends javax.swing.JFrame {
 
     private void jAnamneseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAnamneseActionPerformed
         // TODO add your handling code here:
+        fmAnamnese anamnese = new fmAnamnese();
+        jDesktopPane1.add(anamnese);
+        anamnese.setVisible(true);
     }//GEN-LAST:event_jAnamneseActionPerformed
 
     private void jSessoesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSessoesActionPerformed
@@ -257,6 +260,9 @@ public class fmPrincipal extends javax.swing.JFrame {
 
     private void jCadPsiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCadPsiActionPerformed
         // TODO add your handling code here:
+        fmPsicologo psicologo = new fmPsicologo();
+        jDesktopPane1.add(psicologo);
+        psicologo.setVisible(true);
     }//GEN-LAST:event_jCadPsiActionPerformed
 
     private void jHistClicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jHistClicActionPerformed

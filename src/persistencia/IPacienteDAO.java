@@ -6,6 +6,7 @@
 package persistencia;
 
 import java.util.ArrayList;
+import java.util.List;
 import negocio.Paciente;
 
 /**
@@ -16,7 +17,7 @@ public interface IPacienteDAO {
     public void adiciona(Paciente um_paciente);
     public void altera(Paciente um_paciente);
     public void remove(int id);
-    public ArrayList<Paciente> listarTodos();
+    public List<Paciente> listarTodos();
     public Paciente getByID(int id);
 
 }

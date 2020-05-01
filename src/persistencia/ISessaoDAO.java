@@ -6,17 +6,17 @@
 package persistencia;
 
 import java.util.ArrayList;
-import negocio.Paciente;
+import negocio.Sessao;
 
 /**
  *
  * @author Yan
  */
 public interface ISessaoDAO{
-    public void adiciona(Paciente um_paciente);
-    public void altera(Paciente um_paciente);
+    public void adiciona(Sessao sessao);
+    public void altera(Sessao sessao);
     public void remove(int id);
-    public ArrayList<Paciente> listarTodos();
-    public Paciente getByID(int id);
+    public ArrayList<Sessao> listarTodos();
+    public Sessao getByID(int id);
 
 }
